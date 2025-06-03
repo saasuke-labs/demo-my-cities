@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Cities</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@latest/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --color-primary: #e11d48;
+        --color-secondary: #f59e0b;
+        --color-accent: #6366f1;
+        --color-bg: #dedfe0;
+        --color-bg-2: #f3f4f6;
+        --color-surface: #ffffff;
+        --color-text: #111827;
+      }
+
+      body {
+        background-color: var(--color-bg);
+        color: var(--color-text);
+      }
+
+      a {
+        color: var(--color-accent);
+      }
+      a:hover {
+        color: #4338ca;
+        text-decoration: underline;
+      }
+
+      header nav {
+        background-color: var(--color-surface);
+        padding: 1rem;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      h1,
+      h2,
+      h3 {
+        color: var(--color-primary);
+      }
+
+      p,
+      h4,
+      h5,
+      h6 {
+        color: var(--color-text);
+      }
+
+      p small {
+        font-size: 0.6rem;
+      }
+
+      a[role="button"],
+      button {
+        background-color: var(--color-primary);
+        border: none;
+        color: white;
+      }
+      a[role="button"]:hover,
+      button:hover {
+        background-color: #be123c;
+      }
+
+      section img {
+        border-radius: 0.5rem;
+        max-width: 100%;
+        height: auto;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+
+      section {
+        background-color: var(--color-bg-2);
+        padding: 1.25rem;
+        border-radius: 1rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease;
+      }
+
+      .grid article {
+        background-color: var(--color-surface);
+        padding: 1.25rem;
+        border-radius: 1rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease;
+      }
+      .grid article:hover {
+        transform: translateY(-4px);
+      }
+
+      footer {
+        text-align: center;
+        color: #6b7280;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        border-top: 1px solid #e5e7eb;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      
+      <header>
+        <nav>
+          <ul>
+            <li><h1>My Cities</h1></li>
+          </ul>
+          <ul>
+            <li><a href="#cities">Cities</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#tech">Tech</a></li>
+          </ul>
+        </nav>
+      </header>
+      <div><h1 id="discover-barcelona">Discover Barcelona</h1>
+<p>Barcelona is a city that effortlessly blends sun-soaked beaches, rich history, world-class art, and a vibrant street culture. Whether you're an architecture lover, a foodie, a history buff, or just looking for a good time, Barcelona has something unforgettable to offer.</p>
+<h2 id="why-visit">Why Visit?</h2>
+<p>Located on the northeastern coast of Spain, Barcelona is the capital of Catalonia and one of Europe’s most beloved travel destinations. It's a city where <strong>every corner tells a story</strong> — from the twisting alleys of the Gothic Quarter to the surreal shapes of Gaudí’s architecture. Barcelona invites you to <strong>explore with curiosity, eat with joy, and live each moment with passion</strong>.</p>
+<h2 id="things-youll-love">Things You’ll Love</h2>
+<h3 id="-unique-architecture">🌆 Unique Architecture</h3>
+<p>Barcelona is home to some of the world’s most iconic buildings, thanks to the creative genius of Antoni Gaudí. You’ll find:</p>
+<ul>
+<li><strong>La Sagrada Família</strong>: A towering basilica that feels like a cross between a cathedral and a sandcastle.</li>
+<li><strong>Casa Batlló &amp; Casa Milà</strong>: Playful, colorful, and unlike anything you’ve ever seen.</li>
+<li><strong>Park Güell</strong>: A fantasyland of mosaics, twisted columns, and sweeping city views.</li>
+</ul>
+<h3 id="-beaches-and-sun">🏖️ Beaches and Sun</h3>
+<p>Few cities offer the luxury of world-class beaches <strong>within walking distance</strong> of downtown. Spend a day at <strong>Barceloneta Beach</strong>, rent a bike and cruise along the coast, or sip sangria at a chiringuito (beach bar) as the sun sets.</p>
+<h3 id="-incredible-food-scene">🥘 Incredible Food Scene</h3>
+<p>From <strong>tapas</strong> to <strong>paella</strong>, <strong>vermouth to churros</strong>, Barcelona is a playground for your taste buds. Visit the <strong>Boqueria Market</strong> for a quick bite, or treat yourself to a long, lazy lunch at a terrace in El Born.</p>
+<p>Don't forget to try:</p>
+<ul>
+<li><strong>Patatas bravas</strong></li>
+<li><strong>Pan con tomate</strong></li>
+<li><strong>Crema catalana</strong></li>
+<li>Fresh seafood right from the Mediterranean</li>
+</ul>
+<h3 id="-culture-music-and-nightlife">🎨 Culture, Music, and Nightlife</h3>
+<p>Whether you’re into Picasso, flamenco, jazz, or underground techno, Barcelona’s creative energy is contagious. Visit the <strong>Picasso Museum</strong>, catch a show at the <strong>Palau de la Música Catalana</strong>, or simply follow the sound of laughter and live guitar through the streets of <strong>El Raval</strong> at night.</p>
+<h3 id="-walkable-neighborhoods-full-of-character">🧭 Walkable Neighborhoods Full of Character</h3>
+<ul>
+<li><strong>Gothic Quarter</strong>: Narrow medieval alleys, hidden squares, and Roman ruins.</li>
+<li><strong>Gràcia</strong>: A bohemian village inside the city with local vibes and relaxed plazas.</li>
+<li><strong>Eixample</strong>: Wide boulevards and stunning modernist architecture.</li>
+</ul>
+<h2 id="whats-the-vibe">What’s the Vibe?</h2>
+<p>Barcelona is relaxed but buzzing. It's modern but historic. It’s stylish but unpretentious. It’s a city where you’ll never feel rushed — and where one hour can lead to an unexpected adventure.</p>
+<p>Whether you’re <strong>sipping espresso in a tiny cafe</strong>, <strong>dancing until sunrise</strong>, or <strong>gazing out over the city from Bunkers del Carmel</strong>, Barcelona always has something special waiting for you.</p>
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>If you're looking for a city that combines culture, creativity, coastlines, and cuisine, <strong>Barcelona should be at the top of your list</strong>. It’s not just a destination — it’s a feeling, a rhythm, a memory in the making.</p>
+<hr />
+<p>Have you been to Barcelona or planning to go? Leave a comment below and share your thoughts!</p>
+</div>
+      
+      <footer>&copy; 2025 My Cities — Built with ❤️ by Saasuke Labs</footer>
+    </main>
+  </body>
+</html>

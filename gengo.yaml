@@ -1,0 +1,38 @@
+title: My Cities
+
+theme:
+  layout: "src/layouts/layout.html"
+  home: "src/layouts/home.html"
+  section: "src/layouts/section.html"
+
+default-layout-template: "src/layouts/layout.html"
+home-template: "src/layouts/home.html"
+# See how to avoid the need for sections.
+# Think about sections altogether
+default-section-template: "src/layouts/section.html"
+
+static-assets:
+  - path: src/static
+    destination: static
+
+sections:
+  cities:
+    pages:
+      - title: "Barcelona"
+        description: "Modernist architecture, Mediterranean vibes, and Gaudí’s masterpieces."
+        markdown-path: src/cities/barcelona.md
+      - title: "Tokyo"
+        description: "A perfect blend of tradition and technology in Japan’s capital."
+        markdown-path: src/cities/tokyo.md
+      - title: "New York"
+        description: "The city that never sleeps — diverse, dynamic, and dazzling."
+        markdown-path: src/cities/new-york.md
+      - title: "Rome"
+        description: "Walk through history with ancient ruins and vibrant street life."
+        markdown-path: src/cities/rome.md
+      - title: "Sidney"
+        description: "Iconic landmarks, beautiful beaches, and lively cultural scenes."
+        markdown-path: src/cities/sidney.md
+      - title: "Paris"
+        description: "The city of lights, love, fashion, and unforgettable cuisine."
+        markdown-path: src/cities/paris.md
