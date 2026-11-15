@@ -1,0 +1,86 @@
+{{- /*
+  The shell around every page.
+
+  Every URL in this site is relative, so the build works unchanged at the root
+  of a domain or in any subdirectory. The home page sits at the top of the
+  output; every other page is one folder down (/cities/..., /how-its-made/...),
+  so $root is all the layout needs to find its way back.
+*/ -}}
+{{- $root := "./" }}{{ if .Section }}{{ $root = "../" }}{{ end -}}
+{{- $title := .Title }}{{ with index .Metadata "page-title" }}{{ $title = . }}{{ end -}}
+{{- $description := index .Metadata "description" }}{{ with index .Metadata "summary" }}{{ $description = . }}{{ end -}}
+{{- $image := "hero.jpg" }}{{ with index .Metadata "image" }}{{ $image = . }}{{ end -}}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ if ne $title "My Cities" }}{{ $title }} · My Cities{{ else }}My Cities · Six cities, one small static site{{ end }}</title>
+    <meta name="description" content="{{ $description }}" />
+    <meta property="og:site_name" content="My Cities" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{ $title }}" />
+    <meta property="og:description" content="{{ $description }}" />
+    <meta property="og:image" content="{{ index .Metadata "site-url" }}static/img/{{ $image }}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="{{ $root }}static/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Shippori+Mincho:wght@600;800&display=swap"
+    />
+    <link rel="stylesheet" href="{{ $root }}static/css/site.css" />
+  </head>
+  <body{{ with index .Metadata "accent" }} style="--city: {{ . }}"{{ end }}>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="masthead">
+      <div class="wrap">
+        <a class="wordmark" href="{{ $root }}">
+          <span class="wordmark-dot" aria-hidden="true"></span>My Cities
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a href="{{ $root }}cities/"{{ if eq .Section "cities" }} aria-current="page"{{ end }}>Cities</a>
+          <a href="{{ $root }}how-its-made/"{{ if eq .Section "how-its-made" }} aria-current="page"{{ end }}>How it’s made</a>
+          <a class="nav-lab" href="https://saasuke-labs.com/" rel="noopener">Saasuke Labs <span aria-hidden="true">↗</span></a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">{{ .HTML }}</main>
+
+    <footer class="colophon">
+      <div class="wrap">
+        <div class="colophon-about">
+          <a class="wordmark" href="{{ $root }}">
+            <span class="wordmark-dot" aria-hidden="true"></span>My Cities
+          </a>
+          <p>
+            A demo by <a href="https://saasuke-labs.com/" rel="noopener">Saasuke Labs</a>.
+            It is a static site: no framework, no database, one build command.
+            <a href="{{ $root }}how-its-made/">See how it’s made</a>.
+          </p>
+        </div>
+        <div>
+          <h2>Built with</h2>
+          <ul>
+            <li><a href="https://saasuke-labs.com/gengo/" rel="noopener">Gengo</a>, the site generator</li>
+            <li><a href="https://saasuke-labs.com/nagare/" rel="noopener">Nagare</a>, diagrams and charts</li>
+            <li><a href="https://saasuke-labs.com/kotomi/" rel="noopener">Kotomi</a>, comments and reactions</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Credits</h2>
+          <ul>
+            <li>Photos from <a href="https://unsplash.com/" rel="noopener">Unsplash</a>, credited on each page</li>
+            <li>Weather by <a href="https://open-meteo.com/" rel="noopener">Open-Meteo</a> (CC BY 4.0)</li>
+            <li><a href="https://github.com/saasuke-labs/demo-my-cities" rel="noopener">Source on GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <script src="{{ $root }}static/js/site.js" defer></script>
+  </body>
+</html>

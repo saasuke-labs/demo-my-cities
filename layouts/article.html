@@ -1,0 +1,22 @@
+{{- /*
+  A long-form page: a heading from the front matter metadata, then the
+  rendered Markdown beside a table of contents. static/js/site.js fills the
+  table of contents from the page's h2 headings.
+*/ -}}
+<article class="article">
+  <header class="page-head">
+    <div class="wrap">
+      <p class="eyebrow">{{ index .Metadata "eyebrow" }}</p>
+      <h1>{{ index .Metadata "name" }}</h1>
+      <p class="lead">{{ index .Metadata "summary" }}</p>
+    </div>
+  </header>
+
+  <div class="wrap article-layout">
+    <nav class="toc" aria-label="On this page" data-toc hidden>
+      <h2>On this page</h2>
+      <ol></ol>
+    </nav>
+    <div class="prose" data-toc-source>{{ .HTML }}</div>
+  </div>
+</article>

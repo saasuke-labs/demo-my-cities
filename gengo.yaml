@@ -1,38 +1,57 @@
+# My Cities: a demo site for Gengo, Nagare and Kotomi.
+# Build it with:  gengo generate --manifest gengo.yaml --output dist --plain
+# The whole site is explained at /how-its-made/.
+
 title: My Cities
 
-theme:
-  layout: "src/layouts/layout.html"
-  home: "src/layouts/home.html"
-  section: "src/layouts/section.html"
+# Free-form values every template can read with {{ index .Metadata "key" }}.
+# A page's own front matter metadata is merged on top of these.
+metadata:
+  description: A six-city travel notebook, built to show what Gengo, Nagare and Kotomi can do together.
+  # Only used for absolute URLs in social cards. Every link in the site is relative.
+  site-url: https://saasuke-labs.com/demo-my-cities/
+  # Kotomi is not released yet. Leave kotomi-url empty to show the preview
+  # block; set it to your Kotomi server to load the real widget.
+  kotomi-url: ""
+  kotomi-site: my-cities
 
-default-layout-template: "src/layouts/layout.html"
-home-template: "src/layouts/home.html"
-# See how to avoid the need for sections.
-# Think about sections altogether
-default-section-template: "src/layouts/section.html"
+# The HTML shell around every page, and the template for index.html.
+default-layout-template: layouts/layout.html
+home-template: layouts/home.html
 
+# Copied as they are.
 static-assets:
-  - path: src/static
+  - path: static
     destination: static
 
+# Where the pages come from. Title, flags, metadata and data are read from
+# each file's front matter. The section name becomes the folder in the output.
+content:
+  cities:
+    files:
+      - content/cities/barcelona.md
+      - content/cities/tokyo.md
+      - content/cities/new-york.md
+      - content/cities/rome.md
+      - content/cities/sydney.md
+      - content/cities/paris.md
+  how-its-made:
+    files: content/how-its-made/index.md
+
+# Which templates each section uses.
 sections:
   cities:
-    pages:
-      - title: "Barcelona"
-        description: "Modernist architecture, Mediterranean vibes, and Gaudí’s masterpieces."
-        markdown-path: src/cities/barcelona.md
-      - title: "Tokyo"
-        description: "A perfect blend of tradition and technology in Japan’s capital."
-        markdown-path: src/cities/tokyo.md
-      - title: "New York"
-        description: "The city that never sleeps — diverse, dynamic, and dazzling."
-        markdown-path: src/cities/new-york.md
-      - title: "Rome"
-        description: "Walk through history with ancient ruins and vibrant street life."
-        markdown-path: src/cities/rome.md
-      - title: "Sidney"
-        description: "Iconic landmarks, beautiful beaches, and lively cultural scenes."
-        markdown-path: src/cities/sidney.md
-      - title: "Paris"
-        description: "The city of lights, love, fashion, and unforgettable cuisine."
-        markdown-path: src/cities/paris.md
+    template: layouts/cities.html # the section index, /cities/
+    page-template: layouts/city.html # wraps each city's Markdown
+    metadata:
+      page-title: The cities
+  how-its-made:
+    page-template: layouts/article.html
+
+# HTTP services pages can read while the site builds. The URL is a Go template
+# rendered with the page's metadata, so one source serves all six cities.
+sources:
+  weather:
+    url: 'https://api.open-meteo.com/v1/forecast?latitude={{ index .Metadata "lat" }}&longitude={{ index .Metadata "lon" }}&current=temperature_2m,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=10'
+    headers:
+      Accept: application/json

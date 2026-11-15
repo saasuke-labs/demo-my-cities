@@ -1,0 +1,161 @@
+<!--
+  The home page. Gengo writes it to index.html, wrapped in layouts/layout.html.
+  It sits at the top of the output, so its links are relative to the site root.
+-->
+<section class="hero">
+  <img
+    class="hero-photo"
+    src="static/img/hero.jpg"
+    srcset="static/img/hero-800.jpg 800w, static/img/hero.jpg 1920w"
+    sizes="100vw"
+    alt=""
+    width="1920"
+    height="1080"
+  />
+  <div class="wrap hero-body">
+    <p class="eyebrow">A Saasuke Labs demo</p>
+    <h1>Six cities.<br />One small static site.</h1>
+    <p class="lead">
+      A travel notebook written in Markdown, with charts drawn from text and
+      the weather fetched while the site builds. Read it for the cities, or to
+      see how the pieces fit together.
+    </p>
+    <div class="actions">
+      <a class="btn" href="cities/">Explore the cities</a>
+      <a class="btn ghost" href="how-its-made/">How it’s made</a>
+    </div>
+    <p class="hero-credit">
+      Photo by
+      <a href="https://unsplash.com/@marcojodoin" rel="noopener">Marc-Olivier Jodoin</a>
+      on
+      <a href="https://unsplash.com/photos/long-exposure-photography-of-road-and-cars-NqOInJ-ttqM" rel="noopener">Unsplash</a>
+    </p>
+  </div>
+</section>
+
+<section class="section" id="cities">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The notebook</p>
+      <h2>Pick a city</h2>
+      <p>
+        Each page has what to see, what to eat, how to get in from the
+        airport, this week’s forecast and the best months to go.
+      </p>
+    </div>
+
+    <ul class="city-grid">
+      <li>
+        <a class="city-card" href="cities/barcelona.html" style="--city: #c8553d">
+          <img src="static/img/barcelona-800.jpg" alt="" loading="lazy" width="800" height="533" />
+          <span class="city-card-meta"><span>01</span><span>BCN</span></span>
+          <span class="city-card-body">
+            <span class="city-card-country">Spain</span>
+            <span class="city-card-name">Barcelona</span>
+            <span class="city-card-tagline">Gaudí’s curves, a grid you can read from the air, and dinner at ten.</span>
+          </span>
+        </a>
+      </li>
+      <li>
+        <a class="city-card" href="cities/tokyo.html" style="--city: #d6336c">
+          <img src="static/img/tokyo-800.jpg" alt="" loading="lazy" width="800" height="500" />
+          <span class="city-card-meta"><span>02</span><span>TYO</span></span>
+          <span class="city-card-body">
+            <span class="city-card-country">Japan</span>
+            <span class="city-card-name">Tokyo</span>
+            <span class="city-card-tagline">Neon and temple bells, trains to the second, and ramen at midnight.</span>
+          </span>
+        </a>
+      </li>
+      <li>
+        <a class="city-card" href="cities/new-york.html" style="--city: #e09f1f">
+          <img src="static/img/new-york-800.jpg" alt="" loading="lazy" width="800" height="533" />
+          <span class="city-card-meta"><span>03</span><span>NYC</span></span>
+          <span class="city-card-body">
+            <span class="city-card-country">United States</span>
+            <span class="city-card-name">New York</span>
+            <span class="city-card-tagline">Five boroughs, one grid, and a skyline that is never finished.</span>
+          </span>
+        </a>
+      </li>
+      <li>
+        <a class="city-card" href="cities/rome.html" style="--city: #b7791f">
+          <img src="static/img/rome-800.jpg" alt="" loading="lazy" width="800" height="533" />
+          <span class="city-card-meta"><span>04</span><span>ROM</span></span>
+          <span class="city-card-body">
+            <span class="city-card-country">Italy</span>
+            <span class="city-card-name">Rome</span>
+            <span class="city-card-tagline">Two thousand years stacked on top of each other, and espresso standing up.</span>
+          </span>
+        </a>
+      </li>
+      <li>
+        <a class="city-card" href="cities/sydney.html" style="--city: #1f8a9e">
+          <img src="static/img/sydney-800.jpg" alt="" loading="lazy" width="800" height="600" />
+          <span class="city-card-meta"><span>05</span><span>SYD</span></span>
+          <span class="city-card-body">
+            <span class="city-card-country">Australia</span>
+            <span class="city-card-name">Sydney</span>
+            <span class="city-card-tagline">Harbour ferries, sandstone headlands and a swim before work.</span>
+          </span>
+        </a>
+      </li>
+      <li>
+        <a class="city-card" href="cities/paris.html" style="--city: #4c6fbf">
+          <img src="static/img/paris-800.jpg" alt="" loading="lazy" width="800" height="533" />
+          <span class="city-card-meta"><span>06</span><span>PAR</span></span>
+          <span class="city-card-body">
+            <span class="city-card-country">France</span>
+            <span class="city-card-name">Paris</span>
+            <span class="city-card-tagline">Zinc rooftops, river light and the long lunch.</span>
+          </span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="section sunk" id="stack">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Under the hood</p>
+      <h2>Three small tools, one site</h2>
+      <p>
+        Nothing here runs in your browser except a few lines of script. The
+        pages are generated once, in CI, and served as files.
+      </p>
+    </div>
+
+    <div class="tool-grid">
+      <article class="tool">
+        <p class="tool-role">Site generator</p>
+        <h3>Gengo</h3>
+        <p>
+          Turns a YAML manifest, Markdown files and HTML templates into this
+          site. It also fetches each city’s weather while it builds.
+        </p>
+        <pre><code><span class="dim">$</span> gengo generate --output dist</code></pre>
+      </article>
+      <article class="tool">
+        <p class="tool-role">Diagrams as code</p>
+        <h3>Nagare</h3>
+        <p>
+          Draws every chart and diagram from a few lines of text inside the
+          Markdown. No image files, no charting library in the page.
+        </p>
+        <pre><code>airport.e --&gt; train.w</code></pre>
+      </article>
+      <article class="tool">
+        <p class="tool-role">Comments and reactions</p>
+        <h3>Kotomi</h3>
+        <p>
+          Gives static pages a voice: readers react and comment, you moderate,
+          and the words stay on your own server.
+        </p>
+        <pre><code>new Kotomi({ pageId: "tokyo" })</code></pre>
+      </article>
+    </div>
+
+    <p class="more"><a href="how-its-made/">Read how it’s made, and build your own →</a></p>
+  </div>
+</section>

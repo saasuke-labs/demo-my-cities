@@ -1,0 +1,54 @@
+{{- /*
+  The section index, written to /cities/index.html.
+
+  Gengo hands this template every page of the section in .Pages. Each page
+  carries the front matter of its Markdown file: .Title, .Flags and the
+  free-form .Metadata map. "where" filters pages by flag.
+*/ -}}
+{{ define "row" }}
+<li>
+  <a class="board-row" href="{{ .OutFileName }}" style="--city: {{ index .Metadata "accent" }}">
+    <span class="board-num">{{ index .Metadata "number" }}</span>
+    <span class="board-code">{{ index .Metadata "code" }}</span>
+    <span class="board-city">
+      <span class="board-name">{{ .Title }}</span>
+      <span class="board-tagline">{{ index .Metadata "summary" }}</span>
+    </span>
+    <span class="board-fact"><span class="board-label">Country</span>{{ index .Metadata "country" }}</span>
+    <span class="board-fact"><span class="board-label">Best months</span>{{ index .Metadata "best-months" }}</span>
+    <span class="board-fact board-coords"><span class="board-label">Position</span>{{ index .Metadata "coords" }}</span>
+    <span class="board-go" aria-hidden="true">→</span>
+  </a>
+</li>
+{{ end }}
+
+<section class="page-head">
+  <div class="wrap">
+    <p class="eyebrow">Departures</p>
+    <h1>The cities</h1>
+    <p class="lead">
+      Six places, in no particular order of preference. Every row below is
+      generated from the front matter of a Markdown file.
+    </p>
+  </div>
+</section>
+
+<section class="section tight">
+  <div class="wrap">
+    <h2 class="board-title">Europe</h2>
+    <ul class="board">
+      {{ range .Pages | where "europe" }}{{ template "row" . }}{{ end }}
+    </ul>
+
+    <h2 class="board-title">Further afield</h2>
+    <ul class="board">
+      {{ range .Pages | where "!europe" }}{{ template "row" . }}{{ end }}
+    </ul>
+
+    <p class="board-note">
+      The two lists are the same pages filtered by a flag:
+      <code>where "europe"</code> and <code>where "!europe"</code>.
+      <a href="../how-its-made/#templates">How the templates work →</a>
+    </p>
+  </div>
+</section>

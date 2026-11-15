@@ -1,0 +1,155 @@
+{{- /*
+  Wraps the rendered Markdown of one city, inside layouts/layout.html.
+
+  .HTML      the Markdown, rendered (charts and diagrams are already SVG)
+  .Metadata  the page's front matter metadata, merged over the manifest's
+  .Data      what the page's sources returned at build time
+
+  City pages are written to /cities/<name>.html, one folder below the site
+  root, so assets are one "../" away.
+*/ -}}
+<article class="city">
+  <header class="city-hero">
+    <img
+      class="hero-photo"
+      src="../static/img/{{ index .Metadata "image" }}"
+      alt=""
+      width="1920"
+      height="1280"
+    />
+    <div class="wrap hero-body">
+      <p class="city-hero-meta">
+        <span>{{ index .Metadata "number" }} / 06</span>
+        <span>{{ index .Metadata "code" }}</span>
+        <span>{{ index .Metadata "coords" }}</span>
+      </p>
+      <h1>{{ index .Metadata "name" }}</h1>
+      <p class="lead">{{ index .Metadata "summary" }}</p>
+      <p class="hero-credit">
+        Photo by
+        <a href="{{ index .Metadata "photo-by-url" }}" rel="noopener">{{ index .Metadata "photo-by" }}</a>
+        on
+        <a href="{{ index .Metadata "photo-url" }}" rel="noopener">Unsplash</a>
+      </p>
+    </div>
+  </header>
+
+  <div class="wrap city-layout">
+    <aside class="city-side" aria-label="At a glance">
+      {{ with .Data.weather }}{{ with .current }}
+      <section class="now">
+        <p class="now-label">Right now</p>
+        <p class="now-temp">{{ printf "%.0f" .temperature_2m }}<span>°C</span></p>
+        <p class="now-sky">
+          {{- $code := .weather_code -}}
+          {{- if eq $code 0.0 }}Clear sky
+          {{- else if le $code 2.0 }}Partly cloudy
+          {{- else if eq $code 3.0 }}Overcast
+          {{- else if le $code 48.0 }}Fog
+          {{- else if le $code 57.0 }}Drizzle
+          {{- else if le $code 67.0 }}Rain
+          {{- else if le $code 77.0 }}Snow
+          {{- else if le $code 82.0 }}Rain showers
+          {{- else if le $code 86.0 }}Snow showers
+          {{- else }}Thunderstorm
+          {{- end }}, wind {{ printf "%.0f" .wind_speed_10m }} km/h
+        </p>
+        <p class="now-note">
+          Read from Open-Meteo when this page was built:
+          {{ slice .time 0 10 }} at {{ slice .time 11 }}, local time.
+        </p>
+      </section>
+      {{ end }}{{ else }}
+      <section class="now now-missing">
+        <p class="now-label">Right now</p>
+        <p class="now-note">
+          The weather service did not answer during the last build, so there
+          is no reading to show. The page was built anyway.
+        </p>
+      </section>
+      {{ end }}
+
+      <dl class="facts">
+        <div><dt>Country</dt><dd>{{ index .Metadata "country" }}</dd></div>
+        <div><dt>Best months</dt><dd>{{ index .Metadata "best-months" }}</dd></div>
+        <div><dt>Language</dt><dd>{{ index .Metadata "language" }}</dd></div>
+        <div><dt>Currency</dt><dd>{{ index .Metadata "currency" }}</dd></div>
+        <div><dt>Time zone</dt><dd>{{ index .Metadata "timezone" }}</dd></div>
+      </dl>
+    </aside>
+
+    <div class="prose">{{ .HTML }}</div>
+  </div>
+
+  <section class="talk" id="comments">
+    <div class="wrap talk-inner">
+      <div class="talk-head">
+        <p class="eyebrow">Your turn</p>
+        <h2>Been to {{ index .Metadata "name" }}?</h2>
+        <p>Leave a reaction or tell the next reader what we missed.</p>
+      </div>
+
+      {{ $kotomi := index .Metadata "kotomi-url" }}
+      {{ if $kotomi }}
+      <link rel="stylesheet" href="{{ $kotomi }}/static/kotomi.css" />
+      <div id="kotomi-comments"></div>
+      <script src="{{ $kotomi }}/static/kotomi.js"></script>
+      <script>
+        new Kotomi({
+          baseUrl: {{ $kotomi }},
+          siteId: {{ index .Metadata "kotomi-site" }},
+          pageId: {{ index .Metadata "slug" }},
+        }).render();
+      </script>
+      {{ else }}
+      <div class="kotomi-preview">
+        <p class="kotomi-preview-note">
+          <strong>Preview.</strong> Kotomi is not released yet, so this block
+          is a static mock-up with sample text. Once the demo’s Kotomi server
+          is live, the real widget loads here.
+          <a href="../how-its-made/#comments-and-reactions-with-kotomi">How it is wired →</a>
+        </p>
+        <div class="kotomi-container" aria-hidden="true">
+          <div class="kotomi-reactions">
+            <span class="kotomi-reaction-btn kotomi-reaction-active"><span class="kotomi-reaction-emoji">👍</span><span class="kotomi-reaction-count">12</span></span>
+            <span class="kotomi-reaction-btn kotomi-reaction-active"><span class="kotomi-reaction-emoji">❤️</span><span class="kotomi-reaction-count">7</span></span>
+            <span class="kotomi-reaction-btn kotomi-reaction-active"><span class="kotomi-reaction-emoji">✈️</span><span class="kotomi-reaction-count">4</span></span>
+            <span class="kotomi-reaction-btn"><span class="kotomi-reaction-emoji">🤔</span></span>
+          </div>
+          <div class="kotomi-comments-list">
+            <h3 class="kotomi-comments-title">Comments (2)</h3>
+            <div class="kotomi-comment">
+              <div class="kotomi-comment-header">
+                <span class="kotomi-comment-author">Sample reader</span>
+                <span class="kotomi-comment-date">sample</span>
+              </div>
+              <div class="kotomi-comment-body">
+                This is where a reader’s comment about {{ index .Metadata "name" }} will appear.
+              </div>
+              <div class="kotomi-replies">
+                <div class="kotomi-comment kotomi-reply">
+                  <div class="kotomi-comment-header">
+                    <span class="kotomi-comment-author">Another sample reader</span>
+                    <span class="kotomi-comment-date">sample</span>
+                  </div>
+                  <div class="kotomi-comment-body">And replies are threaded underneath, like this one.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </section>
+
+  <nav class="next-city" aria-label="Next city">
+    <div class="wrap">
+      <a href="{{ index .Metadata "next-slug" }}.html">
+        <span class="eyebrow">Next stop</span>
+        <span class="next-city-name">{{ index .Metadata "next-name" }} <span aria-hidden="true">→</span></span>
+      </a>
+      <a class="next-city-all" href="./">All six cities</a>
+    </div>
+  </nav>
+</article>

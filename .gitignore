@@ -1,0 +1,11 @@
+# Generated site
+dist/
+
+# Local Gengo build (see `just init`)
+.bin/
+.gengo/
+
+# Local manifest overrides
+*.local.yaml
+
+.DS_Store

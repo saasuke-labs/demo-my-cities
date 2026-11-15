@@ -1,0 +1,88 @@
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  # Once a day, so the weather on the city pages stays current.
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  # The Gengo commit this site is built with. The site uses front matter,
+  # `content` file lists and `sources`, which are on Gengo's main branch but
+  # not in a tagged release yet. Once they are released, the two "Gengo" steps
+  # below can be replaced by the install script:
+  #   curl -fsSL https://raw.githubusercontent.com/saasuke-labs/gengo/main/install/install.sh | bash
+  GENGO_REF: 770ea4b2278c60a755c4df36e7da7a71f48d7754
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the site
+        uses: actions/checkout@v4
+
+      - name: Check out Gengo
+        uses: actions/checkout@v4
+        with:
+          repository: saasuke-labs/gengo
+          ref: ${{ env.GENGO_REF }}
+          path: .gengo
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: .gengo/go.mod
+          cache-dependency-path: .gengo/go.sum
+
+      - name: Build Gengo
+        working-directory: .gengo
+        run: go build -o "$RUNNER_TEMP/gengo" ./cmd/main.go
+
+      - name: Build the site
+        run: |
+          "$RUNNER_TEMP/gengo" generate --manifest gengo.yaml --output dist --plain | grep -E '^(File|Generated|Warning)'
+
+      # A page that is missing, or a chart that failed to render, stops the
+      # deploy here, so the last good version stays online.
+      - name: Check the output
+        run: |
+          for page in index.html cities/index.html how-its-made/index.html \
+            cities/barcelona.html cities/tokyo.html cities/new-york.html \
+            cities/rome.html cities/sydney.html cities/paris.html; do
+            test -s "dist/$page" || { echo "::error::missing dist/$page"; exit 1; }
+          done
+          if grep -rl 'nagare-error' dist --include='*.html'; then
+            echo "::error::a Nagare block failed to render in the pages listed above"
+            exit 1
+          fi
+
+      - name: Upload the site
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
