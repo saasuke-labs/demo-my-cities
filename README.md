@@ -50,7 +50,7 @@ To add a city: add a Markdown file in `content/cities/` (copy an existing one fo
 
 ## Publishing
 
-`.github/workflows/deploy.yml` builds the site and deploys it to GitHub Pages on every push to `main`, once a day (so the weather stays current) and on demand. Pull requests are built and checked but not deployed. The deploy is skipped if a page is missing or a Nagare block failed to render, so the last good version stays online.
+`.github/workflows/deploy.yml` builds the site and deploys it to GitHub Pages on every push to `main`, once a day (so the weather stays current) and on demand. Only `main` is published; a manual run on another branch just builds. Pull requests are built and checked but not deployed. If a weather request fails, the build is retried up to three times before the site is published with the fallback text. The deploy is skipped if a page is missing or a Nagare block failed to render, so the last good version stays online.
 
 One-time setup: in the repository settings, under **Pages**, set **Source** to **GitHub Actions**.
 

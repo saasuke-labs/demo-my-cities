@@ -458,7 +458,7 @@ jobs:
           path: dist
 ```
 
-`--plain` replaces the interactive progress display with log lines, which is what you want in CI.
+`--plain` replaces the interactive progress display with log lines, which is what you want in CI. The real workflow also rebuilds up to three times if a weather request fails, and only then publishes with the fallback text.
 
 The subdirectory comes for free. `saasuke-labs.com` is the organisation’s GitHub Pages domain, and GitHub serves every other repository of the organisation with Pages enabled under its own name. This repository is called `demo-my-cities`, so the site appears at `saasuke-labs.com/demo-my-cities/`. Because all its links are relative, nothing in the build needs to know that.
 

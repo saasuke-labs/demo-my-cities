@@ -48,20 +48,26 @@ jobs:
         working-directory: .gengo
         run: go build -o "$RUNNER_TEMP/gengo" ./cmd/main.go
 
-      # TEMPORARY: find out why the weather requests time out on the runner.
-      - name: Probe the weather API
-        run: |
-          getent ahosts api.open-meteo.com || true
-          url='https://api.open-meteo.com/v1/forecast?latitude=41.39&longitude=2.17&current=temperature_2m'
-          for flags in "" "-4" "--tlsv1.2 --tls-max 1.2" "--http1.1"; do
-            curl -sS $flags -o /dev/null --max-time 30 \
-              -w "curl [$flags] http=%{http_code} ip=%{remote_ip} connect=%{time_connect}s tls=%{time_appconnect}s total=%{time_total}s\n" \
-              "$url" || true
-          done
-
+      # Each city page fetches its weather during the build. On a fresh runner
+      # those requests have timed out, so make one request first, then rebuild
+      # if any page still came out without its weather. If the service stays
+      # down, the last build is published with the fallback text instead.
       - name: Build the site
         run: |
-          "$RUNNER_TEMP/gengo" generate --manifest gengo.yaml --output dist --plain | grep -E '^(File|Generated|Warning)'
+          curl -fsS -o /dev/null --retry 4 --retry-all-errors --retry-delay 5 --max-time 20 \
+            'https://api.open-meteo.com/v1/forecast?latitude=0&longitude=0&current=temperature_2m' \
+            || echo "::warning::Open-Meteo did not answer the warm-up request"
+
+          for attempt in 1 2 3; do
+            rm -rf dist
+            "$RUNNER_TEMP/gengo" generate --manifest gengo.yaml --output dist --plain \
+              | grep -E '^(File|Generated|Warning)' | tee "$RUNNER_TEMP/build.log"
+            if ! grep -q '^Warning: failed to fetch source' "$RUNNER_TEMP/build.log"; then
+              break
+            fi
+            echo "::warning::Attempt $attempt: some weather requests failed"
+            if [ "$attempt" -lt 3 ]; then sleep 15; fi
+          done
 
       # A page that is missing, or a chart that failed to render, stops the
       # deploy here, so the last good version stays online.
