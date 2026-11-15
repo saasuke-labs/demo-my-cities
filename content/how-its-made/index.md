@@ -320,7 +320,7 @@ Each row of `data` is one point on the x axis with a value per series, separated
 
 If a block has a mistake in it, the error is printed in the page where the figure would have been, so it is hard to publish a broken diagram without noticing.
 
-One practical note: charts come out with a fixed pixel width. The site’s only script, `static/js/site.js`, adds a `viewBox` to them so they scale with the text column, and lets wide figures scroll sideways on a phone instead of shrinking until the labels are unreadable.
+One practical note: figures scale with the text column, which on a phone would shrink the labels until they are unreadable. The site’s only script, `static/js/site.js`, wraps each figure in a frame that scrolls sideways instead.
 
 ## Build-time data
 

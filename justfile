@@ -1,7 +1,7 @@
 # My Cities: build and preview commands. Run `just` to list them.
 
 # The Gengo commit this site is built with (same as .github/workflows/deploy.yml).
-gengo_ref := "770ea4b2278c60a755c4df36e7da7a71f48d7754"
+gengo_ref := "229501850b81e0a289c8ff8c58fedef150ad2507"
 
 set shell := ["bash", "-euo", "pipefail", "-c"]
 

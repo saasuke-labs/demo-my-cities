@@ -1,20 +1,9 @@
 // The only script on the site. Everything works without it; these are two
 // small conveniences.
 
-// 1. Figures. Nagare charts come with a fixed width and height; giving them a
-//    viewBox lets the stylesheet scale them to the text column. Each figure is
-//    also wrapped in a scrolling frame, so on a phone it can stay large enough
-//    to read instead of shrinking to fit.
+// 1. Figures. Each Nagare chart or diagram is wrapped in a scrolling frame, so
+//    on a phone it can stay large enough to read instead of shrinking to fit.
 document.querySelectorAll(".prose > svg").forEach((svg) => {
-  if (!svg.hasAttribute("viewBox")) {
-    const width = parseFloat(svg.getAttribute("width"));
-    const height = parseFloat(svg.getAttribute("height"));
-    if (width && height) {
-      svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
-      svg.removeAttribute("width");
-      svg.removeAttribute("height");
-    }
-  }
   const frame = document.createElement("div");
   frame.className = "figure";
   frame.tabIndex = 0;

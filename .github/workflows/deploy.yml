@@ -22,7 +22,7 @@ env:
   # not in a tagged release yet. Once they are released, the two "Gengo" steps
   # below can be replaced by the install script:
   #   curl -fsSL https://raw.githubusercontent.com/saasuke-labs/gengo/main/install/install.sh | bash
-  GENGO_REF: 770ea4b2278c60a755c4df36e7da7a71f48d7754
+  GENGO_REF: 229501850b81e0a289c8ff8c58fedef150ad2507
 
 jobs:
   build:
